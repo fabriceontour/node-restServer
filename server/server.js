@@ -1,3 +1,7 @@
+//======= Ce fichier server doit etre tres simple =========================
+//===== Il doit avoir peu de choses. C'est ce fichier qui est execute 
+//===== Quand demarre le serveur
+
 // Recupere le port dans le fichier cree
 require('./config/config');
 //Recuperation des paquets necessaires. Le npm install a ete fait
@@ -9,7 +13,8 @@ const mongoose = require('mongoose');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use( require('./routes/usuario'));
+//Configuration de toutes les routes. Dans ce index, il y a toutes les routes
+app.use( require('./routes/index'));
 
 //Connection à la base de données. Mais attention, il faut peut etre rajouter une option
 mongoose.connect(process.env.URLDB, 

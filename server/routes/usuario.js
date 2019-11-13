@@ -4,10 +4,11 @@ const Usuario = require('../models/usuario');
 const app = express();
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+const {verificaToken, verificaAdmin_role} = require('../middlewares/autenticacion');
 
 //*************************************************************************** 
 //La petition get est pour lire des donnees. Meme si pas obligatoire
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificaToken, function (req, res) {
     // Cela permet de decider le nombre d'enreg que on retourne et a partir du quel
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -28,7 +29,7 @@ app.get('/usuario', function (req, res) {
                     })
                 }
                 
-                Usuario.count({estado: true}, (err, conteo) => {
+                Usuario.countDocuments({estado: true}, (err, conteo) => {
                     if (err) {
                         return res.status(400).json({
                             ok: false,
@@ -73,7 +74,7 @@ app.post('/usuario', function (req, res) {
 })
   
   //put est pour actualiser un enregistrement. Il y a un parametre
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_role], function (req, res) {
       //Recuperation du parametre
       let id = req.params.id;
       let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
@@ -95,7 +96,7 @@ app.put('/usuario/:id', function (req, res) {
 })
   
   //post est pour eliminer un enregistrement
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_role], function (req, res) {
     let id = req.params.id;
     //Cela elimine physiquement un document ce qui correspond a un enregistrement
     //Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
