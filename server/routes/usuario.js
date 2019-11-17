@@ -10,6 +10,8 @@ const {verificaToken, verificaAdmin_role} = require('../middlewares/autenticacio
 //La petition get est pour lire des donnees. Meme si pas obligatoire
 app.get('/usuario', verificaToken, function (req, res) {
     // Cela permet de decider le nombre d'enreg que on retourne et a partir du quel
+    // Ces deux paramètres ne sont pas obligatoire. Il se mettent dans l'url
+    // ..../usuario?desde=4&limite=7       C'est query qui les recupère
     let desde = req.query.desde || 0;
     desde = Number(desde);
     let limite = req.query.limite || 2;

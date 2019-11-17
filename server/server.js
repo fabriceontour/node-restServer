@@ -9,6 +9,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 // Le app.use est une sorte de middleware. Il s'execute a chaque que une petition est faite
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
